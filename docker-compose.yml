@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  datadog-agent:
+    image: gcr.io/datadoghq/agent:7.46.0
+    container_name: datadog-agent
+    environment:
+      - DD_API_KEY=
+      - DD_SITE=us5.datadoghq.com
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"
+      - DD_CONTAINER_EXCLUDE="name:datadog-agent"
+      - DD_PROCESS_AGENT_ENABLED=true
+      - DD_NETWORK_MONITORING_ENABLED=true
+      - DD_PROCESS_CONFIG_PROCESS_COLLECTION_ENABLED=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc:/host/proc:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /opt/datadog-agent/run:/opt/datadog-agent/run
+      - /opt/datadog-agent/logs:/var/log/datadog
+      - ./datadog/datadog.yaml:/etc/datadog-agent/datadog.yaml:ro  # Monta o arquivo de configuração
+      - ./datadog/system-probe.yaml:/etc/datadog-agent/system-probe.yaml:ro  # Monta o arquivo de co
+    ports:
+      - 8126:8126
+      - 8125:8125/udp
+    restart: unless-stopped
+    networks:
+      - datadogx_network
+
+  datadgox-app:
+    build:
+      context: ./datadogx
+      dockerfile: ./Dockerfile
+    image: datadogx:latest
+    container_name: datadogx-app
+    environment:
+      - DD_AGENT_HOST=datadog-agent
+    ports:
+      - 8080:8080
+    networks:
+      - datadogx_network
+
+networks:
+  datadogx_network:
+    driver: bridge      
