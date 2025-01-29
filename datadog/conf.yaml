@@ -1,0 +1,9 @@
+logs:
+  - type: file
+    path: /app/logs/app.log
+    service: datadogxapp
+    source: custom
+    log_processing_rules:
+      - type: multi_line
+        name: new_log_start
+#        pattern: "^\\d{4}-\\d{2}-\\d{2}"  # Regex para identificar o início de um novo log

@@ -5,6 +5,7 @@ services:
     image: gcr.io/datadoghq/agent:7.46.0
     container_name: datadog-agent
     environment:
+      - DD_LOGS_INJECTION=true
       - DD_API_KEY=
       - DD_SITE=us5.datadoghq.com
       - DD_LOGS_ENABLED=true
@@ -22,6 +23,8 @@ services:
       - /opt/datadog-agent/logs:/var/log/datadog
       - ./datadog/datadog.yaml:/etc/datadog-agent/datadog.yaml:ro  # Monta o arquivo de configuração
       - ./datadog/system-probe.yaml:/etc/datadog-agent/system-probe.yaml:ro  # Monta o arquivo de co
+      - ./logs/app.log:/app/logs/app.log
+      - ./datadog/conf.yaml:/etc/datadog-agent/conf.d/datadogxapp/conf.yaml
     ports:
       - 8126:8126
       - 8125:8125/udp
@@ -37,6 +40,9 @@ services:
     container_name: datadogx-app
     environment:
       - DD_AGENT_HOST=datadog-agent
+      - DD_LOGS_INJECTION=true
+    volumes:
+      - ./logs/app.log:/app/logs/app.log
     ports:
       - 8080:8080
     networks:

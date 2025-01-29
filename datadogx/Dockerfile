@@ -13,4 +13,4 @@ COPY --from=build /build/datadogx/target/classes/dd-java-agent.jar /app/dd-java-
 
 WORKDIR /app
 
-ENTRYPOINT ["java", "-javaagent:dd-java-agent.jar", "-Ddd.logs.injection=true", "-Ddd.service=datadogx", "-Ddd.profiling.enabled=true", "-Ddd.env=dev", "-Ddd.tags=env:prd,service:datadogx-app,version:1.0.0,test-tag:test-value", "-jar", "datadogx.jar"]
+ENTRYPOINT ["java", "-javaagent:dd-java-agent.jar", "-Ddd.logs.injection=true", "-Ddd.service=datadogx", "-Ddd.profiling.enabled=true", "-Ddd.env=dev", "-Ddd.tags=env:prd,service:datadogx-app,version:1.0.0,test-tag:test-value", "-Ddd.logs.injection=true", "-jar", "datadogx.jar"]
