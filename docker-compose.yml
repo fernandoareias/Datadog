@@ -10,8 +10,8 @@ services:
       - DD_SITE=us5.datadoghq.com
       - DD_LOGS_ENABLED=true
       - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
-      - DD_CONTAINER_EXCLUDE_LOGS="name:datadog-agent"
-      - DD_CONTAINER_EXCLUDE="name:datadog-agent"
+      - DD_CONTAINER_EXCLUDE_LOGS="service:agent"
+      - DD_CONTAINER_EXCLUDE="service:agent"
       - DD_PROCESS_AGENT_ENABLED=true
       - DD_NETWORK_MONITORING_ENABLED=true
       - DD_PROCESS_CONFIG_PROCESS_COLLECTION_ENABLED=true
@@ -21,17 +21,17 @@ services:
       - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
       - /opt/datadog-agent/run:/opt/datadog-agent/run
       - /opt/datadog-agent/logs:/var/log/datadog
-      - ./datadog/datadog.yaml:/etc/datadog-agent/datadog.yaml:ro  # Monta o arquivo de configuração
+      - ./datadog/datadog.yaml:/etc/datadog-agent/datadog.yaml:ro
       - ./datadog/system-probe.yaml:/etc/datadog-agent/system-probe.yaml:ro  # Monta o arquivo de co
-      - ./logs/app.log:/app/logs/app.log
-      - ./datadog/conf.yaml:/etc/datadog-agent/conf.d/datadogxapp/conf.yaml
+      - ./logs/app.log:/etc/datadog-agent/logs/app.log
+#      - ./datadog/conf.yaml:/etc/datadog-agent/conf.d/datadogxapp.d/conf.yaml
     ports:
       - 8126:8126
       - 8125:8125/udp
     restart: unless-stopped
     networks:
       - datadogx_network
-
+#
   datadgox-app:
     build:
       context: ./datadogx
@@ -39,14 +39,28 @@ services:
     image: datadogx:latest
     container_name: datadogx-app
     environment:
-      - DD_AGENT_HOST=datadog-agent
-      - DD_LOGS_INJECTION=true
+#      - DD_AGENT_HOST=datadog-agent
+#      - DD_LOGS_INJECTION=true
+      - PROJECT_NAME=datadog-api
+      - JOB_NAME=api-test
     volumes:
       - ./logs/app.log:/app/logs/app.log
     ports:
       - 8080:8080
     networks:
       - datadogx_network
+
+#  postgres:
+#    image: postgres:latest
+#    container_name: postgres_container
+#    restart: always
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: postgres
+#      POSTGRES_DB: shop
+#    ports:
+#      - "5432:5432"
+
 
 networks:
   datadogx_network:

@@ -130,8 +130,8 @@ site: us5.datadoghq.com
 #
 
 tags:
-  - team:infra
-  - env:dev
+  - team:poc
+  - env:prd
   - version:1.0.0
   - region:us-east
   - business:test-business
@@ -1052,11 +1052,21 @@ logs_enabled: true
 logs_config:
   container_collect_all: true
   container_exclude_logs:
-    - name: datadog-agent  # Evita coletar logs do próprio agente
+    - name: datadog-agent
+    - name: agent
+  force_use_http: true
+  force_use_tcp: true
+  use_compression: true
+  compression_level: 6
 
 container_exclude:
-  - name: datadog-agent  # Evita coletar logs do próprio agente
+  - name: datadog-agent
+  - name: agent
 
+system_probe_config:
+  enabled: true
+
+log_level: DEBUG
 ## @param container_collect_all - boolean - optional - default: false
 ## @env DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL - boolean - optional - default: false
 ## Enable container log collection for all the containers (see ac_exclude to filter out containers)
@@ -1360,7 +1370,8 @@ apm_config:
 ## Uncomment this parameter and the one below to enable them.
 ## See https://docs.datadoghq.com/graphing/infrastructure/process/
 #
-# process_config:
+process_config:
+  enabled: "true"
 
 ## @param process_collection - custom object - optional
 ## Specifies settings for collecting processes.
