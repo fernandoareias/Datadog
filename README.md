@@ -4,11 +4,11 @@
 
 # Pipeline
 
-autoFilledRule1 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<project>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>.+JPA\s+EntityManagerFactory\s+for\s+persistence\s+unit\s+'default')
+autoFilledRule1 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<hostname>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>.+)
 
-autoFilledRule2 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<project>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>.+ProtocolHandler\s+\[\"http-nio-8080\"\])
+autoFilledRule2 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<hostname>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>.+)
 
-autoFilledRule3 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<project>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>HikariPool-1\s+-\s+.+completed\.)
+autoFilledRule3 \[(?<date>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\]\s+\[(?<hostname>[^\]]+)\]\s+\[(?<job>[^\]]+)\]\s+\[(?<level>[^\]]+)\]\s+-\s+(?<message>.+)
 
 
 
